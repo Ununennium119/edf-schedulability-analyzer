@@ -14,9 +14,11 @@ class EdfAnalyzer:
         l_star = self._calculate_l_star(tasks)
         max_time_to_check = min(float(hyper_period), max(float(max_deadline), l_star))
 
+        # Get all absolute deadlines which are less than max_time_to_check
+        times_to_check: list[int] = self._get_times_to_check(tasks, max_time_to_check)
+
         # Check schedulability
         report_table = ReportTable()
-        times_to_check: list[int] = self._get_times_to_check(tasks, max_time_to_check)
         for time in times_to_check:
             demand_function = self._calculate_demand_function(tasks, time)
             report_row = ReportRow(
